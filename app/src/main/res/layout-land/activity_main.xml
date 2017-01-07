@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragB"
-        android:layout_width="150dp"
+        android:layout_width="400dp"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         class="com.example.user.ex10.FragB">
