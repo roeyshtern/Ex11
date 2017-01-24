@@ -6,14 +6,15 @@
     android:clickable="true">
 
     <TextView
-        android:textSize="50sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/counter"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:textSize="14sp"
+        android:gravity="left"
+        android:clickable="true"
+        android:scrollbars="vertical"
+        android:inputType="textMultiLine"
+        android:id="@+id/details"/>
 
 
 

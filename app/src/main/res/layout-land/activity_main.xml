@@ -8,21 +8,21 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.user.ex10.MainActivity">
+    tools:context="com.example.user.ex11.View.MainActivity">
 
     <fragment
-        android:id="@+id/fragA"
+        android:id="@+id/itemFragment"
         android:layout_width="150dp"
         android:layout_height="match_parent"
-        class="com.example.user.ex10.FragA">
+        class="com.example.user.ex11.View.ItemFragment">
 
     </fragment>
     <fragment
-        android:id="@+id/fragB"
+        android:id="@+id/detailsFragment"
         android:layout_width="400dp"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        class="com.example.user.ex10.FragB">
+        class="com.example.user.ex11.View.DetailsFragment">
 
     </fragment>
 </RelativeLayout>
