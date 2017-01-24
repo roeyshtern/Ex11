@@ -1,6 +1,7 @@
 package com.example.user.ex11.View;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,14 +18,16 @@ import com.example.user.ex11.R;
 
 public class DetailsFragment extends Fragment{
     CountryReporter listener;
+    Context context;
 
     TextView tvDetails;
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        this.context = getActivity();
         try
         {
             this.listener = (CountryReporter)getActivity();
-            this.tvDetails.setText(listener.getCountryData().getDetails());
+            //this.tvDetails.setText(listener.getCountryData().getDetails());
         }catch (ClassCastException e)
         {
             throw new ClassCastException("The class" + getActivity().getClass().getName() + " must impliments the inteface 'clickHandler' ");

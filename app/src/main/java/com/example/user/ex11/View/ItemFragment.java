@@ -2,6 +2,7 @@ package com.example.user.ex11.View;
 
 import android.app.Fragment;
 import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,9 +19,11 @@ import com.example.user.ex11.R;
 
 public class ItemFragment extends ListFragment{
     CountrySelectionListener listener;
+    Context context;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        this.context = getActivity();
         try
         {
             this.listener = (CountrySelectionListener) getActivity();
