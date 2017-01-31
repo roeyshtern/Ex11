@@ -2,6 +2,7 @@ package com.example.user.ex11.View;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -27,7 +28,13 @@ public class DetailsFragment extends Fragment{
         try
         {
             this.listener = (CountryReporter)getActivity();
-            //this.tvDetails.setText(listener.getCountryData().getDetails());
+            Country country = listener.getCountryData();
+            if(null != country)
+            {
+                    changeTo(country);
+
+            }
+
         }catch (ClassCastException e)
         {
             throw new ClassCastException("The class" + getActivity().getClass().getName() + " must impliments the inteface 'clickHandler' ");
@@ -38,6 +45,7 @@ public class DetailsFragment extends Fragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         this.tvDetails = (TextView) view.findViewById(R.id.details);
+
         super.onViewCreated(view, savedInstanceState);
     }
 

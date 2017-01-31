@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.example.user.ex11.Model.Country;
@@ -24,7 +25,10 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        if(savedInstanceState!=null)
+        {
+            this.selectPos = savedInstanceState.getInt("selectPos");
+        }
         if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT)
         {
             FragmentManager fm = getFragmentManager();
@@ -35,10 +39,7 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(R.id.fragContainer, new ItemFragment(), "AAA").commit();
         }
-        if(savedInstanceState!=null)
-        {
-            this.selectPos = savedInstanceState.getInt("selectPos");
-        }
+
     }
 
 
@@ -60,6 +61,7 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
 
     @Override
     public void onCountryChanged(int position, Country country) {
+        this.selectPos = position;
         DetailsFragment detailsFragment;
         if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE)
         {
@@ -75,6 +77,11 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
                     .commit();
             fm.executePendingTransactions();
         }
+        this.country = country;
+        int songResource = getResources().getIdentifier(country.getAnthem(), "raw",
+                getPackageName());
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, songResource);
+        mediaPlayer.start();
         detailsFragment.changeTo(this.country);
 
     }
