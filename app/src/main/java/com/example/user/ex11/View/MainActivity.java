@@ -13,12 +13,12 @@ import com.example.user.ex11.R;
 public class MainActivity extends Activity implements ItemFragment.CountrySelectionListener, DetailsFragment.CountryReporter {
     private Country country = null;
     private int selectPos = -1;
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("selectPos",this.selectPos);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +78,7 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
             fm.executePendingTransactions();
         }
         this.country = country;
-        int songResource = getResources().getIdentifier(country.getAnthem(), "raw",
-                getPackageName());
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, songResource);
-        mediaPlayer.start();
+
         detailsFragment.changeTo(this.country);
 
     }

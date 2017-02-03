@@ -14,6 +14,7 @@
         android:clickable="true"
         android:scrollbars="vertical"
         android:inputType="textMultiLine"
+        android:onClick="onClick"
         android:id="@+id/details"/>
 
 
