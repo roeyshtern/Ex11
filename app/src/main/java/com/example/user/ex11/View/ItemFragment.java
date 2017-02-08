@@ -6,29 +6,36 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.user.ex11.Controller.CountryAdapter;
 import com.example.user.ex11.Model.Country;
 import com.example.user.ex11.Model.DataLoader;
 import com.example.user.ex11.R;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
  * Created by User on 1/3/2017.
  */
 
-public class ItemFragment extends ListFragment{
+public class ItemFragment extends ListFragment implements MyDialog.ResultsListener{
     CountrySelectionListener listener;
     Context context;
     CountryAdapter adapter;
+    ArrayList<String> countries = new ArrayList<>();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        this.countries = new ArrayList<>();
         this.context = getActivity();
         try
         {
@@ -70,11 +77,32 @@ public class ItemFragment extends ListFragment{
         super.onActivityCreated(savedInstanceState);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        MyDialog.newInstance(MyDialog.EXIT_DIALOG).show(getChildFragmentManager(), "spinner");
+        return super.onOptionsItemSelected(item);
+    }
+
+    public ArrayList<String> getMissingCountry()
+    {
+        return adapter.getMissingCountries(countries);
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.items_frag, container,false);
+    }
+
+    @Override
+    public void OnfinishDialog(int requestCode, Object result) {
+        Toast.makeText(this.getActivity(), "this string: " + result.toString(),Toast.LENGTH_SHORT).show();
     }
 
 

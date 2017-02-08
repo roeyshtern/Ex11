@@ -6,11 +6,13 @@ import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.user.ex11.Model.Country;
 import com.example.user.ex11.R;
 
-public class MainActivity extends Activity implements ItemFragment.CountrySelectionListener, DetailsFragment.CountryReporter {
+public class MainActivity extends Activity implements ItemFragment.CountrySelectionListener, DetailsFragment.CountryReporter, MyDialog.ResultsListener{
     private Country country = null;
     private int selectPos = -1;
 
@@ -84,7 +86,24 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public Country getCountryData() {
         return this.country;
+    }
+
+    @Override
+    public void OnfinishDialog(int requestCode, Object result) {
+
     }
 }
