@@ -21,11 +21,29 @@ import java.util.ArrayList;
 public class CountryAdapter extends ArrayAdapter<Country> {
     ArrayList<Country> countries;
     Context context;
-    public CountryAdapter(Context context) {
+    private Country country;
+    public CountryAdapterListener listener;
+    public CountryAdapter(Context context, CountryAdapterListener listener, ArrayList<String> shownCountries) {
         super(context, R.layout.row_layout);
+        this.listener = listener;
         this.context = context;
         countries = new ArrayList<>(DataLoader.getCountries());
-        this.addAll(countries);
+        this.feedShownCountries(shownCountries);
+    }
+    private void feedShownCountries(ArrayList<String> shownCountriesNames)
+    {
+        for (Country country:countries) {
+            if(shownCountriesNames.contains(country.getName()))
+            {
+                add(country);
+            }
+        }
+    }
+    public void onItemLongClick(int position)
+    {
+        country=getItem(position);
+        remove(country);
+        listener.UpdateShownCountriesList(false,country.getName());
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
@@ -58,5 +76,19 @@ public class CountryAdapter extends ArrayAdapter<Country> {
         }
         return missing;
     }
-
+    public void addNewCountry(String string)
+    {
+        for (Country country: this.countries) {
+            if(country.getName().equals(string))
+            {
+                add(country);
+                listener.UpdateShownCountriesList(true,string);
+                break;
+            }
+        }
+    }
+    public interface CountryAdapterListener
+    {
+        public void UpdateShownCountriesList(boolean toAdd,String name);
+    }
 }

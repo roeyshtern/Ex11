@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,20 +28,27 @@ import java.util.Comparator;
  * Created by User on 1/3/2017.
  */
 
-public class ItemFragment extends ListFragment implements MyDialog.ResultsListener{
-    CountrySelectionListener listener;
+public class ItemFragment extends ListFragment implements MyDialog.ResultsListener ,CountryAdapter.CountryAdapterListener{
+    public CountrySelectionListener listener;
     Context context;
-    CountryAdapter adapter;
-    ArrayList<String> countries = new ArrayList<>();
+    static CountryAdapter adapter;
+    static ArrayList<String> countries;
+    Menu fragMenu;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        this.countries = new ArrayList<>();
+        if(savedInstanceState!=null) {
+            this.countries = savedInstanceState.getStringArrayList("shwon");
+        }
+        else {
+            if(countries==null)
+                this.countries = new ArrayList<>();
+        }
         this.context = getActivity();
         try
         {
             this.listener = (CountrySelectionListener) getActivity();
-            this.adapter = new CountryAdapter(context);
+            this.adapter = new CountryAdapter(context, this, countries);
 
             this.adapter.sort(new Comparator<Country>() {
                 @Override
@@ -69,6 +77,15 @@ public class ItemFragment extends ListFragment implements MyDialog.ResultsListen
             {
                 listener.setInitCountry(adapter.getItem(pos));
             }
+            getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    adapter.onItemLongClick(position);
+                    setListAdapter(adapter);
+                    listener.setInitCountry(null);
+                    return true;
+                }
+            });
 
         }catch(ClassCastException e)
         {
@@ -77,20 +94,35 @@ public class ItemFragment extends ListFragment implements MyDialog.ResultsListen
         super.onActivityCreated(savedInstanceState);
     }
 
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main,menu);
+        if(menu.findItem(R.id.action_add)==null)
+        {
+            inflater.inflate(R.menu.main,menu);
+        }
+        this.fragMenu = menu;
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        MyDialog.newInstance(MyDialog.EXIT_DIALOG).show(getChildFragmentManager(), "spinner");
-        return super.onOptionsItemSelected(item);
+        switch(item.getItemId()) {
+            case R.id.action_add: {
+                MyDialog.newInstance(MyDialog.ADD).show(getChildFragmentManager(), "spinner");
+                return true;
+            }
+            default:
+                return false;
+        }
     }
 
     public ArrayList<String> getMissingCountry()
     {
+        if(countries==null)
+        {
+            countries = new ArrayList<>();
+        }
         return adapter.getMissingCountries(countries);
     }
     @Nullable
@@ -102,7 +134,25 @@ public class ItemFragment extends ListFragment implements MyDialog.ResultsListen
 
     @Override
     public void OnfinishDialog(int requestCode, Object result) {
+        switch(requestCode)
+        {
+            case MyDialog.ADD:
+                adapter.addNewCountry(result.toString());
+
+        }
         Toast.makeText(this.getActivity(), "this string: " + result.toString(),Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void UpdateShownCountriesList(boolean toAdd, String name) {
+        if(toAdd)
+        {
+            this.countries.add(name);
+        }
+        else
+        {
+            this.countries.remove(name);
+        }
     }
 
 
@@ -118,4 +168,13 @@ public class ItemFragment extends ListFragment implements MyDialog.ResultsListen
         getListView().setSelector(android.R.color.holo_blue_dark);
         this.listener.onCountryChanged(position, this.adapter.getItem(position));
     }
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList("shwon", this.countries);
+    }
+
 }

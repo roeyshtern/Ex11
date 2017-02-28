@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import com.example.user.ex11.Model.Country;
 import com.example.user.ex11.R;
 
-public class MainActivity extends Activity implements ItemFragment.CountrySelectionListener, DetailsFragment.CountryReporter, MyDialog.ResultsListener{
+public class MainActivity extends Activity implements ItemFragment.CountrySelectionListener, DetailsFragment.CountryReporter{
     private Country country = null;
     private int selectPos = -1;
 
@@ -21,6 +21,7 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
         super.onSaveInstanceState(outState);
         outState.putInt("selectPos",this.selectPos);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +32,18 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
         {
             this.selectPos = savedInstanceState.getInt("selectPos");
         }
+/*
         if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT)
         {
             FragmentManager fm = getFragmentManager();
-            if(savedInstanceState != null && fm.findFragmentByTag("AAA")!=null)
+            if(savedInstanceState != null || fm.findFragmentByTag("AAA")!=null)
             {
                 return;
             }
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(R.id.fragContainer, new ItemFragment(), "AAA").commit();
         }
+*/
 
     }
 
@@ -71,6 +74,7 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
         }
         else
         {
+
             detailsFragment = new DetailsFragment();
             FragmentManager fm = getFragmentManager();
             fm.beginTransaction()
@@ -92,8 +96,6 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -102,8 +104,4 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
         return this.country;
     }
 
-    @Override
-    public void OnfinishDialog(int requestCode, Object result) {
-
-    }
 }
