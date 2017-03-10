@@ -3,7 +3,9 @@ package com.example.user.ex11.View;
 import android.app.Fragment;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +25,8 @@ import com.example.user.ex11.R;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by User on 1/3/2017.
@@ -169,7 +173,24 @@ public class ItemFragment extends ListFragment implements MyDialog.ResultsListen
         this.listener.onCountryChanged(position, this.adapter.getItem(position));
     }
 
-
+    @Override
+    public void onDestroy() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = sp.edit();
+        boolean toSaveList = sp.getBoolean("toSaveList", false);
+        if(toSaveList)
+        {
+            Set<String> set = new HashSet<>();
+            set.addAll(countries);
+            editor.putStringSet("shown", set);
+        }
+        else
+        {
+            editor.remove("shown");
+        }
+        editor.commit();
+        super.onDestroy();
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

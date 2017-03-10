@@ -7,8 +7,9 @@
     <string name="Bgo">Go!</string>
     <string name="TVfarenheit">Farenheit</string>
     <string name="TVcelcius">Celcius</string>
+    <string name="add">Add new</string>
     <string name="Breturn">Return</string>
-    <string name="closing">Add new country</string>
+    <string name="closing">Are you ugly?</string>
     <string name="sure">Are you sure?</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
