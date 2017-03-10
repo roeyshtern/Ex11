@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="@string/saveList"
+        android:key="toSaveList" />
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/YourName"
+        android:key="UserName" />
+    <ListPreference
+        android:defaultValue="1"
+        android:title="List preference"
+        android:entries="@array/ListColors"
+        android:entryValues="@array/ListColors"
+        android:summary="@string/summary"
+        android:key="backColor"/>
+    <PreferenceScreen
+        android:title="@string/AdvancedSettings">
+        <PreferenceCategory
+            android:title="@string/LoadLOptions">
+            <CheckBoxPreference
+                android:key="RefreshOnStart"
+                android:title="@string/Refresh"
+                android:summary="@string/summaryAdv"
+                android:defaultValue="false">
+
+            </CheckBoxPreference>
+
+        </PreferenceCategory>
+    </PreferenceScreen>
+</PreferenceScreen>
