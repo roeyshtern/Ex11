@@ -15,4 +15,10 @@
     <string name="host">Hosting activity must imlements the interface ResultListerner</string>
     <string name="saveList">Rmember county shown</string>
     <string name="YourName">Your Name</string>
+    <string name="summary">this is the backgrous of the \'Details\' screen. \nCurrent value: %s</string>
+    <string name="AdvancedSettings">Advanced settings</string>
+    <string name="LoadLOptions">Load options</string>
+    <string name="Refresh">Refresh data when application starts</string>
+    <string name="Auto">The countries data will be automatically refreshed from...</string>
+    <string name="summaryAdv">The countries data will be automatically refreshed from the web upon starting the application</string>
 </resources>
