@@ -22,4 +22,5 @@
     <string name="Refresh">Refresh data when application starts</string>
     <string name="Auto">The countries data will be automatically refreshed from...</string>
     <string name="summaryAdv">The countries data will be automatically refreshed from the web upon starting the application</string>
+    <string name="summaryUserName">Your name: %s</string>
 </resources>

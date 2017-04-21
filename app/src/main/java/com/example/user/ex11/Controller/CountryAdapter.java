@@ -13,6 +13,7 @@ import com.example.user.ex11.Model.DataLoader;
 import com.example.user.ex11.R;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Created by User on 1/31/2017.
@@ -76,6 +77,15 @@ public class CountryAdapter extends ArrayAdapter<Country> {
         }
         return missing;
     }
+    public void sort()
+    {
+        this.sort(new Comparator<Country>() {
+            @Override
+            public int compare(Country o1, Country o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+    }
     public void addNewCountry(String string)
     {
         for (Country country: this.countries) {
@@ -86,6 +96,7 @@ public class CountryAdapter extends ArrayAdapter<Country> {
                 break;
             }
         }
+        sort();
     }
     public interface CountryAdapterListener
     {

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,13 +42,16 @@ public class ItemFragment extends ListFragment implements MyDialog.ResultsListen
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        if(savedInstanceState!=null) {
-            this.countries = savedInstanceState.getStringArrayList("shwon");
+        if(countries==null) {
+            //this.countries = savedInstanceState.getStringArrayList("shwon");
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            ItemFragment.countries = new ArrayList<String>(sp.getStringSet("shown", new HashSet<String>()));
         }
-        else {
-            if(countries==null)
-                this.countries = new ArrayList<>();
-        }
+        //if(countries==null)
+        //{
+        //    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        //    ItemFragment.countries = new ArrayList<String>(sp.getStringSet("shown", new HashSet<String>()));
+        //}
         this.context = getActivity();
         try
         {
@@ -77,7 +81,7 @@ public class ItemFragment extends ListFragment implements MyDialog.ResultsListen
                 }
             }, 100);
 
-            if(pos!=-1)
+            if(pos!=-1 && !countries.isEmpty())
             {
                 listener.setInitCountry(adapter.getItem(pos));
             }
@@ -187,6 +191,7 @@ public class ItemFragment extends ListFragment implements MyDialog.ResultsListen
         else
         {
             editor.remove("shown");
+            //countries.clear();
         }
         editor.commit();
         super.onDestroy();

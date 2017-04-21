@@ -2,11 +2,14 @@ package com.example.user.ex11.View;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,23 +84,42 @@ public class DetailsFragment extends Fragment{
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(MyApplication.getAppContext());
+        String bgColor = sp.getString("backColor", "#5ba4e5");
+        ((View)this.tvDetails.getParent()).setBackgroundColor(Color.parseColor(bgColor));
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.details_frag, container,false);
     }
     //changeTo0
     public void changeTo(Country newCountry) {
-        tvDetails.setText(newCountry.getDetails());
-        if(mediaPlayer!=null)
+        if(newCountry==null)
         {
-            mediaPlayer.reset();
+            tvDetails.setText("");
+            if(mediaPlayer.isPlaying())
+            {
+                mediaPlayer.stop();
+            }
         }
-        int songResource = getResources().getIdentifier(newCountry.getAnthem(), "raw", getActivity().getPackageName());
-        mediaPlayer = MediaPlayer.create(getActivity(), songResource);
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mMediaController = new MediaController(getActivity());
-        mMediaController.setAnchorView(tvDetails);
-        mMediaController.setMediaPlayer(new MusicCotrol());
-        mediaPlayer.start();
+        else {
+            tvDetails.setText(newCountry.getDetails());
+            if(mediaPlayer!=null)
+            {
+                mediaPlayer.reset();
+            }
+            int songResource = getResources().getIdentifier(newCountry.getAnthem(), "raw", getActivity().getPackageName());
+            mediaPlayer = MediaPlayer.create(getActivity(), songResource);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mMediaController = new MediaController(getActivity());
+            mMediaController.setAnchorView(tvDetails);
+            mMediaController.setMediaPlayer(new MusicCotrol());
+            mediaPlayer.start();
+        }
+
 
 /*
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {

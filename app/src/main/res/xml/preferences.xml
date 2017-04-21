@@ -9,13 +9,14 @@
         android:defaultValue="Default value"
         android:selectAllOnFocus="true"
         android:singleLine="true"
+        android:summary="@string/summaryUserName"
         android:title="@string/YourName"
         android:key="UserName" />
     <ListPreference
         android:defaultValue="1"
         android:title="List preference"
         android:entries="@array/ListColors"
-        android:entryValues="@array/ListColors"
+        android:entryValues="@array/ListColorsValues"
         android:summary="@string/summary"
         android:key="backColor"/>
     <PreferenceScreen

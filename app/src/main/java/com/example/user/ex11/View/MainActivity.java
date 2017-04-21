@@ -3,19 +3,26 @@ package com.example.user.ex11.View;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.user.ex11.Model.Country;
 import com.example.user.ex11.R;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class MainActivity extends Activity implements ItemFragment.CountrySelectionListener, DetailsFragment.CountryReporter, MyDialog.ResultsListener{
     private Country country = null;
@@ -37,6 +44,16 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
         {
             this.selectPos = savedInstanceState.getInt("selectPos");
         }
+        else
+        {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+            String user = sp.getString("UserName", "Guest");
+            if(user.compareTo("")==0)
+            {
+                user = "Guest";
+            }
+            Toast.makeText(this,"Hello " + user, Toast.LENGTH_LONG).show();
+        }
 /*
         if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT)
         {
@@ -56,6 +73,10 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
     @Override
     public void setInitCountry(Country country) {
         this.country = country;
+        if(country==null)
+        {
+            this.selectPos = -1;
+        }
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             DetailsFragment detailsFragment = (DetailsFragment) getFragmentManager().findFragmentById(R.id.detailsFragment);
             if(detailsFragment.isVisible()) {
@@ -125,8 +146,7 @@ public class MainActivity extends Activity implements ItemFragment.CountrySelect
         {
             case MyDialog.EXIT: {
                 finish();
-                System.exit(0);
-                break;
+                return;
             }
         }
     }
